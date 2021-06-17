@@ -3,14 +3,20 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HeadComponent } from './head/head.component';
+import { DwibComponent } from './dwib/dwib.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    HeadComponent,
+    DwibComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]

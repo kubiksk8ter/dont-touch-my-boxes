@@ -1,0 +1,67 @@
+@import "../schemes/color-schemes.css";
+p {
+    color: var(--scheme-color2); 
+}
+#rotating-boxes {
+    width: calc(100vw - 20px);
+    top: 10px;
+    left: 10px;
+    height: calc(100vh - 20px);
+    position: relative;    
+    display: flex; 
+    border: 1px solid red;
+}
+#inner-box {    
+    position: absolute;
+    width: 38px;
+    height: 38px;
+    border: 1px solid var(--background-color);
+    border-radius: 5px;
+    /*box-shadow: -2px -2px 5px 0px black inset,
+        2px 2px 5px 0px var(--my-background-color) inset;*/
+}
+
+.dwibAnimation1 {
+    animation-name: dwibAnimation1;
+    animation-duration: 2.5s;
+}
+
+.dwibAnimation2 {
+    animation-name: dwibAnimation2;
+    animation-duration: 2.5s;
+}
+
+.dwibAnimation3 {
+    animation-name: dwibAnimation3;
+    animation-duration: 2.5s;
+}
+
+.dwibAnimation4 {
+    animation-name: dwibAnimation4;
+    animation-duration: 2.5s;
+}
+
+@keyframes dwibAnimation1 {
+    50% { 
+        border-color: var(--my-scheme-color1);
+    }
+}
+
+@keyframes dwibAnimation2 {
+    50% {
+        opacity: 0; 
+        background-color: var(--my-scheme-color2);
+    }
+}
+
+@keyframes dwibAnimation3 {
+    50% {
+        border-color: blue;
+    }
+}
+
+@keyframes dwibAnimation4 {
+    50% {
+        border-color: var(--my-scheme-color2);
+    }
+}

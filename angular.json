@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -119,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "dont-touch-my-boxes"
+    }
+  },
+  "defaultProject": "dont-touch-my-boxes",
+  "cli": {
+    "analytics": "766c55d1-9ae0-4475-bc63-6ccb83e724f0"
+  }
 }
