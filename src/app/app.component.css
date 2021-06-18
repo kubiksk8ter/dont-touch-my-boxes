@@ -1,0 +1,4 @@
+@import "../app/schemes/color-schemes.css";
+p {
+    color: var(--scheme-color1);
+}

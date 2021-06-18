@@ -14,7 +14,7 @@ export class DwibComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-      this.dwib = new DwibService('rotating-boxes', 'inner-box', 0.7, 1, 'dwibAnimation2', 2500, this.renderer);
+      this.dwib = new DwibService('rotating-boxes', 'inner-box', 1, 1, 'dwibAnimation2', 2500, this.renderer);
       this.dwib.fill();   
   }
 
