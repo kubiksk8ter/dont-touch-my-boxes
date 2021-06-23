@@ -1,20 +1,19 @@
-p {
-    color: var(--scheme-color2); 
+#main {
+    width: calc(100vw - 20px);
+    height: calc(100vh - 20px);
 }
 #rotating-boxes {
-    width: calc(100vw - 20px);
+    width: inherit; height: inherit;
     top: 10px;
     left: 10px;
-    height: calc(100vh - 20px);
     position: relative;    
     display: flex; 
-    border: 1px solid red;
 }
 #inner-box {    
     position: absolute;
     width: 38px;
     height: 38px;
-    border: 1px solid black;
+    border: 1px solid var(--border-color);
     border-radius: 5px;
     /*box-shadow: -2px -2px 5px 0px black inset,
         2px 2px 5px 0px var(--my-background-color) inset;*/
@@ -42,14 +41,14 @@ p {
 
 @keyframes dwibAnimation1 {
     50% { 
-        border-color: var(--my-scheme-color1);
+        border-color: var(--scheme-color1);
     }
 }
 
 @keyframes dwibAnimation2 {
     50% {
         opacity: 0; 
-        background-color: var(--my-scheme-color2);
+        background-color: var(--scheme-color2);
     }
 }
 
@@ -61,6 +60,6 @@ p {
 
 @keyframes dwibAnimation4 {
     50% {
-        border-color: var(--my-scheme-color2);
+        border-color: var(--scheme-color2);
     }
 }

@@ -1,6 +1,7 @@
 /*scheme 1*/
-:root {
-    --background-color: #333333;
+:root {   
+    --background-color: #111111;
+    --border-color: #333333;
     --scheme-color1: #ff3300;
     --scheme-color2: #ffff00;
     --transparent-color: rgba(0,0,0,0);   
