@@ -10,18 +10,21 @@ import {AppElementsService} from '../app-elements.service';
 export class DwibComponent implements OnInit, AfterViewInit {
     private dwib: DwibService;
     @ViewChild('mainDwib', { read: ElementRef }) private dwibElement: ElementRef;
-    
+    @ViewChild('rotatingBoxes') private rotatingBoxes: ElementRef;
+    @ViewChild('startBtn') private startBtn: ElementRef;
   constructor(
     private renderer: Renderer2
   ) {}
    
   ngAfterViewInit(): void {
-      this.preventDwibDefault();    
+      this.preventDwibDefault(); 
+      this.setDwibSize();
+      this.dwib = new DwibService('rotating-boxes', 'inner-box', 1, 1, 'dwibAnimation2', 2500, this.renderer);
+      this.dwib.fill();    
   }
 
   ngOnInit(): void {
-      this.dwib = new DwibService('rotating-boxes', 'inner-box', 1, 1, 'dwibAnimation2', 2500, this.renderer);
-      this.dwib.fill();                
+                     
   }
   
   private preventDwibDefault() {
@@ -30,14 +33,24 @@ export class DwibComponent implements OnInit, AfterViewInit {
       });
   }
   
-  @HostListener('window:resize')
-    onResize() {
-        this.dwib.removeInnerBoxes();
-        setTimeout(()=>{       
-            this.dwib = new DwibService('rotating-boxes', 'inner-box', 1, 1, 'dwibAnimation2', 2500, this.renderer);
-            this.dwib.fill();
-            this.preventDwibDefault();
-        }, 200);                
-    }
-
+  private setDwibSize() {
+      let windowWidth = window.innerWidth - 30;
+      let windowHeight = window.innerHeight - 30;
+      
+      if(windowWidth > windowHeight) {
+          this.renderer.setStyle(this.rotatingBoxes.nativeElement, 'width', `${windowHeight}px`);
+          this.renderer.setStyle(this.rotatingBoxes.nativeElement, 'height', `${windowHeight}px`);
+      }
+      else {
+          this.renderer.setStyle(this.rotatingBoxes.nativeElement, 'width', `${windowWidth}px`);
+          this.renderer.setStyle(this.rotatingBoxes.nativeElement, 'height', `${windowWidth}px`);
+      }
+  }
+  
+  start() {
+      this.dwib.highlightSimpleBoxes("dwibAnimation1");
+  }
+  stop() {
+      this.dwib.stopGame();
+  }
 }

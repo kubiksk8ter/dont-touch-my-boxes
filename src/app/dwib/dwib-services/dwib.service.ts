@@ -17,6 +17,9 @@ export class DwibService {
     private index: number;
     private divNumber = 0;
     private coordinatesY = 0;
+    
+    private gameloop: any;
+    
   constructor(divId: string, innerBoxId:string, opacityStartPosition: number, padding: number, animationName: string, animationDuration: number, private renderer: Renderer2) {
         this.divId = divId;
         this.innerBoxId = innerBoxId;
@@ -144,18 +147,28 @@ export class DwibService {
             }
         }
     }
-    animateRandom (randomAnimation: string) {
-        let random;       
-        for (let i = 0; i < 20; i++) {
-            random = Math.floor(Math.random() * this.divNumber);
-            let element = document.getElementsByClassName(`${this.innerBoxId} X${random}`)[0];
+    highlightSimpleBoxes (randomAnimation: string) {
+        let random;
+        console.log("Game started!");
+               
+        this.gameloop = setInterval(()=>{
+                       
             setTimeout(()=>{
-                this.renderer.addClass(element, randomAnimation);
+                random = Math.floor(Math.random() * this.divNumber);
+                let element = document.getElementsByClassName(`${this.innerBoxId} X${random}`)[0];                          
+                this.renderer.addClass(element, randomAnimation);               
+                
                 setTimeout(()=>{
                     this.renderer.removeClass(element, randomAnimation);
                 }, this.animationDuration);
-            }, i*150);
-        }
-    }   
+                
+            }, 1000);
+                      
+        }, 1000);
+    }
+    stopGame() {
+        clearInterval(this.gameloop);
+        console.log("Game stoped!")
+    }
 }
 
