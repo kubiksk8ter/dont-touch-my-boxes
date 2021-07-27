@@ -1,4 +1,5 @@
 import { Renderer2 } from '@angular/core';
+import { Observable } from "rxjs";
 
 export class DwibService {
     private height: number;
@@ -19,6 +20,8 @@ export class DwibService {
     private coordinatesY = 0;
     
     private gameloop: any;
+    score: number = 0;
+    scoreObservable = new Observable((obs) => {obs.next(this.score)});
     
   constructor(divId: string, innerBoxId:string, opacityStartPosition: number, padding: number, animationName: string, animationDuration: number, private renderer: Renderer2) {
         this.divId = divId;
@@ -53,15 +56,16 @@ export class DwibService {
                     this.renderer.setStyle(div, 'left', `${x}px`);
                     this.renderer.setStyle(div,'opacity', `${this.opacity(x,this.width)}`)
                     
-                    /*on mouse over animation*/
+                    /*on mouse over animation
                     this.renderer.listen(div, 'mouseover', () => {                   
                         this.renderer.addClass(div, this.animationName);
                         setTimeout(() => {
                             this.renderer.removeClass(div, this.animationName);
                         }, this.animationDuration);                   
                     });
+                    */
                     
-                    /*on touchover animation*/                   
+                    /*on touchover animation                   
                     this.renderer.listen(div, 'touchmove',(e: TouchEvent)=>{                   
                         var touchX = e.touches[0].clientX;
                         var touchY = e.touches[0].clientY;                             
@@ -73,7 +77,7 @@ export class DwibService {
                                 this.renderer.removeClass(touchedElement, this.animationName);                               
                             }, this.animationDuration);
                         }                                  
-                    });
+                    });*/
                     this.divNumber++;                          
                 }
                 this.coordinatesY++;                         
@@ -147,28 +151,35 @@ export class DwibService {
             }
         }
     }
-    highlightSimpleBoxes (randomAnimation: string) {
-        let random;
-        console.log("Game started!");
-               
+    
+    startGame(randomAnimation: string) {                   
         this.gameloop = setInterval(()=>{
-                       
-            setTimeout(()=>{
-                random = Math.floor(Math.random() * this.divNumber);
-                let element = document.getElementsByClassName(`${this.innerBoxId} X${random}`)[0];                          
-                this.renderer.addClass(element, randomAnimation);               
-                
-                setTimeout(()=>{
-                    this.renderer.removeClass(element, randomAnimation);
-                }, this.animationDuration);
-                
-            }, 1000);
-                      
+            this.highlightSimpleBox(randomAnimation);
         }, 1000);
-    }
+        console.log("Game started!");      
+    } 
+    
     stopGame() {
         clearInterval(this.gameloop);
-        console.log("Game stoped!")
+        this.score = 0;
+        console.log("Game stoped!");       
     }
+    
+    highlightSimpleBox (randomAnimation: string) {
+        let random = Math.floor(Math.random() * this.divNumber);                                   
+        let element = document.getElementsByClassName(`${this.innerBoxId} X${random}`)[0];                          
+        this.renderer.addClass(element, randomAnimation);
+        let onClickListener = this.renderer.listen(element, "click", ()=>{
+            this.score += 1;
+            onClickListener();
+            console.log("Not obs: " + this.score);
+        });               
+                
+        setTimeout(()=>{
+            this.renderer.removeClass(element, randomAnimation);
+            onClickListener(); 
+        }, this.animationDuration);
+    }
+    
 }
 
