@@ -1,5 +1,6 @@
 import { Renderer2 } from '@angular/core';
 import { Observable } from "rxjs";
+import { map, filter } from 'rxjs/operators'
 
 export class DwibService {
     private height: number;
@@ -22,6 +23,12 @@ export class DwibService {
     private gameloop: any;
     score: number = 0;
     scoreObservable = new Observable((obs) => {obs.next(this.score)});
+    
+    async getScore() {
+        this.scoreObservable.subscribe(
+            val => {console.log("obs: " + val)}
+        );
+    }
     
   constructor(divId: string, innerBoxId:string, opacityStartPosition: number, padding: number, animationName: string, animationDuration: number, private renderer: Renderer2) {
         this.divId = divId;
@@ -173,11 +180,13 @@ export class DwibService {
             this.score += 1;
             onClickListener();
             console.log("Not obs: " + this.score);
+            this.renderer.removeClass(element, randomAnimation);
         });               
                 
         setTimeout(()=>{
             this.renderer.removeClass(element, randomAnimation);
-            onClickListener(); 
+            onClickListener();
+            this.score -= 1; 
         }, this.animationDuration);
     }
     

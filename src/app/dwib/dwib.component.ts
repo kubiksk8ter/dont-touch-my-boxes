@@ -8,11 +8,11 @@ import {AppElementsService} from '../app-elements.service';
   styleUrls: ['./dwib.component.css']
 })
 export class DwibComponent implements OnInit, AfterViewInit {
-    dwib: DwibService;
+    private dwib: DwibService;
     @ViewChild('mainDwib', { read: ElementRef }) private dwibElement: ElementRef;
     @ViewChild('rotatingBoxes') private rotatingBoxes: ElementRef;
     @ViewChild('startBtn') private startBtn: ElementRef;
-       
+   
   constructor(
     private renderer: Renderer2
   ) {}
@@ -21,11 +21,8 @@ export class DwibComponent implements OnInit, AfterViewInit {
       this.preventDwibDefault(); 
       this.setDwibSize();
       this.dwib = new DwibService('rotating-boxes', 'inner-box', 1, 1, 'dwibAnimation2', 2500, this.renderer);
-      this.dwib.fill();
-      
-      this.dwib.scoreObservable.subscribe(
-        val => {console.log("obs: " + val)}
-      );    
+      this.dwib.fill(); 
+      this.getScore();             
   }
 
   ngOnInit(): void {
@@ -57,6 +54,9 @@ export class DwibComponent implements OnInit, AfterViewInit {
   }
   stop() {
       this.dwib.stopGame();
+  }
+  async getScore() {
+      this.dwib.getScore() ;    
   }
   
 }
