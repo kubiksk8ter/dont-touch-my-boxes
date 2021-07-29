@@ -1,6 +1,5 @@
 import { Component, OnInit, AfterViewInit, Renderer2, ViewChild, ElementRef, HostListener } from '@angular/core';
 import {DwibService} from '../dwib/dwib-services/dwib.service';
-import {AppElementsService} from '../app-elements.service';
 
 @Component({
   selector: 'app-dwib',
@@ -12,7 +11,10 @@ export class DwibComponent implements OnInit, AfterViewInit {
     @ViewChild('mainDwib', { read: ElementRef }) private dwibElement: ElementRef;
     @ViewChild('rotatingBoxes') private rotatingBoxes: ElementRef;
     @ViewChild('startBtn') private startBtn: ElementRef;
-   
+    
+    score: any = 0;
+    isGameStarted = false;
+    
   constructor(
     private renderer: Renderer2
   ) {}
@@ -22,7 +24,7 @@ export class DwibComponent implements OnInit, AfterViewInit {
       this.setDwibSize();
       this.dwib = new DwibService('rotating-boxes', 'inner-box', 1, 1, 'dwibAnimation2', 2500, this.renderer);
       this.dwib.fill(); 
-      this.getScore();             
+      this.dwib.getScoreSubject().subscribe(data => {this.score = data});          
   }
 
   ngOnInit(): void {
@@ -50,13 +52,13 @@ export class DwibComponent implements OnInit, AfterViewInit {
   }
   
   start() {
-      this.dwib.startGame("dwibAnimation1");
+      if (!this.isGameStarted){
+        this.isGameStarted = true;
+        this.dwib.startGame("dwibAnimation1");
+      }
   }
   stop() {
+      this.isGameStarted = false;
       this.dwib.stopGame();
-  }
-  async getScore() {
-      this.dwib.getScore() ;    
-  }
-  
+  }  
 }

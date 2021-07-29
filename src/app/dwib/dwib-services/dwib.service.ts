@@ -1,5 +1,5 @@
 import { Renderer2 } from '@angular/core';
-import { Observable } from "rxjs";
+import { Observable, Subject } from "rxjs";
 import { map, filter } from 'rxjs/operators'
 
 export class DwibService {
@@ -21,13 +21,16 @@ export class DwibService {
     private coordinatesY = 0;
     
     private gameloop: any;
-    score: number = 0;
-    scoreObservable = new Observable((obs) => {obs.next(this.score)});
     
-    async getScore() {
-        this.scoreObservable.subscribe(
-            val => {console.log("obs: " + val)}
-        );
+    private score: number = 0;
+    private scoreSubject = new Subject<number>();
+    private scoreSubject$ = this.scoreSubject.asObservable();
+    
+    updateScoreSubject(newScore: number) {
+        this.scoreSubject.next(newScore);
+    }
+    getScoreSubject() {
+        return this.scoreSubject$;
     }
     
   constructor(divId: string, innerBoxId:string, opacityStartPosition: number, padding: number, animationName: string, animationDuration: number, private renderer: Renderer2) {
@@ -177,16 +180,15 @@ export class DwibService {
         let element = document.getElementsByClassName(`${this.innerBoxId} X${random}`)[0];                          
         this.renderer.addClass(element, randomAnimation);
         let onClickListener = this.renderer.listen(element, "click", ()=>{
-            this.score += 1;
+            this.score += 1; this.updateScoreSubject(this.score);
             onClickListener();
-            console.log("Not obs: " + this.score);
             this.renderer.removeClass(element, randomAnimation);
         });               
                 
         setTimeout(()=>{
             this.renderer.removeClass(element, randomAnimation);
             onClickListener();
-            this.score -= 1; 
+            this.score -= 1; this.updateScoreSubject(this.score);
         }, this.animationDuration);
     }
     
