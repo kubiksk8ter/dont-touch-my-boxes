@@ -1,6 +1,5 @@
 import { Renderer2 } from '@angular/core';
-import { Observable, Subject } from "rxjs";
-import { map, filter } from 'rxjs/operators'
+import { Subject } from "rxjs";
 
 export class DwibService {
     private height: number;
@@ -21,6 +20,7 @@ export class DwibService {
     private coordinatesY = 0;
     
     private gameloop: any;
+    private isGameStarted: boolean = false;
     
     private score: number = 0;
     private scoreSubject = new Subject<number>();
@@ -101,17 +101,7 @@ export class DwibService {
         return opacity;
     }
     
-    removeInnerBoxes() {
-        /*
-        for (let i = 0; i <= document.getElementById(this.divId).childNodes.length * 100; i++) {
-            document.getElementById(this.innerBoxId).remove()
-        }
-        var mainDiv = document.getElementById(this.divId);
-        var innerBox = this.renderer.createElement('div');
-        this.renderer.setAttribute(innerBox, 'id', this.innerBoxId);
-        this.renderer.appendChild(mainDiv, innerBox);
-        */
-               
+    removeInnerBoxes() {       
         let superMain = document.getElementById(this.divId).parentElement;
         superMain.removeChild(document.getElementById(this.divId));
         
@@ -123,6 +113,61 @@ export class DwibService {
         superMain.appendChild(mainDiv);
         this.renderer.appendChild(mainDiv, innerBox);               
     }
+    
+    //GAME   
+    startGame(randomAnimation: string) {
+        if (!this.isGameStarted) {
+            this.isGameStarted = true;                  
+            this.gameloop = setInterval(()=>{
+                this.highlightSimpleBox(randomAnimation);
+            }, 1000);
+            console.log("Game started!");
+        }      
+    } 
+    
+    stopGame() {
+        if (this.isGameStarted) {
+            this.isGameStarted = false;
+            clearInterval(this.gameloop);
+            this.score = 0; this.updateScoreSubject(this.score);
+            let coll = document.getElementsByClassName(`${this.innerBoxId}`);
+
+            for (let i = 0; i < coll.length; i++) {
+                this.switchOffBox(coll[i], this.animationName);                       
+            }
+            console.log("Game stoped!");  
+        }     
+    }
+    
+    private highlightSimpleBox (randomAnimation: string) {
+        let isBoxClicked = false;
+        let random = Math.floor(Math.random() * this.divNumber);                                   
+        let element = document.getElementsByClassName(`${this.innerBoxId} X${random}`)[0];                          
+        this.renderer.addClass(element, randomAnimation);
+        
+        let onClickListener = this.renderer.listen(element, "click", ()=>{
+            this.score += 1; this.updateScoreSubject(this.score);
+            isBoxClicked = true;           
+            onClickListener();
+            this.switchOffBox(element, randomAnimation);
+        });               
+                
+        setTimeout(()=>{
+            this.switchOffBox(element, randomAnimation);
+            onClickListener();
+            ;
+            if (!isBoxClicked && this.isGameStarted){
+                this.score -= 1; this.updateScoreSubject(this.score);
+            }
+        }, this.animationDuration);
+    }
+    
+    private switchOffBox(element: Element, animation: string) {
+        this.renderer.removeClass(element, animation);
+    }
+    
+    
+    
     
     //  ANIMATIONS
     animateLines (animationName: string) {        
@@ -160,36 +205,6 @@ export class DwibService {
                 }, x*20);
             }
         }
-    }
-    
-    startGame(randomAnimation: string) {                   
-        this.gameloop = setInterval(()=>{
-            this.highlightSimpleBox(randomAnimation);
-        }, 1000);
-        console.log("Game started!");      
-    } 
-    
-    stopGame() {
-        clearInterval(this.gameloop);
-        this.score = 0;
-        console.log("Game stoped!");       
-    }
-    
-    highlightSimpleBox (randomAnimation: string) {
-        let random = Math.floor(Math.random() * this.divNumber);                                   
-        let element = document.getElementsByClassName(`${this.innerBoxId} X${random}`)[0];                          
-        this.renderer.addClass(element, randomAnimation);
-        let onClickListener = this.renderer.listen(element, "click", ()=>{
-            this.score += 1; this.updateScoreSubject(this.score);
-            onClickListener();
-            this.renderer.removeClass(element, randomAnimation);
-        });               
-                
-        setTimeout(()=>{
-            this.renderer.removeClass(element, randomAnimation);
-            onClickListener();
-            this.score -= 1; this.updateScoreSubject(this.score);
-        }, this.animationDuration);
     }
     
 }

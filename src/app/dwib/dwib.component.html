@@ -3,6 +3,8 @@
         <div id="inner-box"></div>
     </div>
 </div>
-<button id="startBtn" type="button" class="btn btn-dark" (click)="start()">Start</button>
-<button id="stopBtn" type="button" class="btn btn-dark" (click)="stop()">Stop</button>
-<label style="color: white">{{score}}</label>
+<div id="menu">
+    <button id="startBtn" type="button" class="btn btn-dark" (click)="start()">Start</button>
+    <button id="stopBtn" type="button" class="btn btn-dark" (click)="stop()">Stop</button>
+    <label id="score">{{score}}</label>
+</div>

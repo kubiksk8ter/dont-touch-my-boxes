@@ -13,7 +13,6 @@ export class DwibComponent implements OnInit, AfterViewInit {
     @ViewChild('startBtn') private startBtn: ElementRef;
     
     score: any = 0;
-    isGameStarted = false;
     
   constructor(
     private renderer: Renderer2
@@ -52,13 +51,9 @@ export class DwibComponent implements OnInit, AfterViewInit {
   }
   
   start() {
-      if (!this.isGameStarted){
-        this.isGameStarted = true;
-        this.dwib.startGame("dwibAnimation1");
-      }
+    this.dwib.startGame("dwibAnimation1");
   }
   stop() {
-      this.isGameStarted = false;
-      this.dwib.stopGame();
+    this.dwib.stopGame();
   }  
 }
