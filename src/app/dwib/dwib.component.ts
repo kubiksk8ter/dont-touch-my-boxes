@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Renderer2, ViewChild, ElementRef, HostListener } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Renderer2 } from '@angular/core';
 import {DwibService} from '../dwib/dwib-services/dwib.service';
 
 @Component({
@@ -6,24 +6,16 @@ import {DwibService} from '../dwib/dwib-services/dwib.service';
   templateUrl: './dwib.component.html',
   styleUrls: ['./dwib.component.css']
 })
-export class DwibComponent implements OnInit, AfterViewInit {
-    private dwib: DwibService;
-    @ViewChild('mainDwib', { read: ElementRef }) private dwibElement: ElementRef;
-    @ViewChild('rotatingBoxes') private rotatingBoxes: ElementRef;
-    @ViewChild('startBtn') private startBtn: ElementRef;
-    
-    score: any = 0;
+export class DwibComponent implements OnInit, AfterViewInit {  
     
   constructor(
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private dwib: DwibService
   ) {}
    
   ngAfterViewInit(): void {
-      this.preventDwibDefault(); 
-      this.setDwibSize();
-      this.dwib = new DwibService('rotating-boxes', 'inner-box', 1, 1, 'dwibAnimation2', 2500, this.renderer);
-      this.dwib.fill(); 
-      this.dwib.getScoreSubject().subscribe(data => {this.score = data});          
+      this.preventDwibDefault();      
+      this.dwib.fill();          
   }
 
   ngOnInit(): void {
@@ -31,29 +23,9 @@ export class DwibComponent implements OnInit, AfterViewInit {
   }
   
   private preventDwibDefault() {
-      this.renderer.listen(this.dwibElement.nativeElement, 'touchstart',(e: TouchEvent)=>{  
+      this.renderer.listen(document.body, 'touchstart',(e: TouchEvent)=>{  
             e.preventDefault();        
       });
   }
-  
-  private setDwibSize() {
-      let windowWidth = window.innerWidth - 30;
-      let windowHeight = window.innerHeight - 30;
-      
-      if(windowWidth > windowHeight) {
-          this.renderer.setStyle(this.rotatingBoxes.nativeElement, 'width', `${windowHeight}px`);
-          this.renderer.setStyle(this.rotatingBoxes.nativeElement, 'height', `${windowHeight}px`);
-      }
-      else {
-          this.renderer.setStyle(this.rotatingBoxes.nativeElement, 'width', `${windowWidth}px`);
-          this.renderer.setStyle(this.rotatingBoxes.nativeElement, 'height', `${windowWidth}px`);
-      }
-  }
-  
-  start() {
-    this.dwib.startGame("dwibAnimation1");
-  }
-  stop() {
-    this.dwib.stopGame();
-  }  
+    
 }

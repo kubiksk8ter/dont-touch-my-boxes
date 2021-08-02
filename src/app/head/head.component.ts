@@ -1,5 +1,4 @@
 import { Component, OnInit, AfterViewInit, Renderer2, ElementRef, ViewChild, HostListener } from '@angular/core';
-import {AppElementsService} from '../app-elements.service';
 
 @Component({
   selector: 'app-head',
@@ -49,7 +48,8 @@ export class HeadComponent implements OnInit, AfterViewInit {
       });
   }
   
-  private setClientPosition() { 
+  private setClientPosition() {
+       
       this.renderer.listen(this.bodyElement, 'mousemove', (e: MouseEvent)=>{ 
           this.clientX = e.clientX;
           this.clientY = e.clientY;

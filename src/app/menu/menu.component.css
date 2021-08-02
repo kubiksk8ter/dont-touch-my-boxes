@@ -1,0 +1,34 @@
+#menu {
+    position: absolute;
+    height: auto;
+    width: 70px;
+    border: 1px solid white;
+    border-radius: 10px;
+    top: 10px; left: calc(50vw - 50vh - 70px);
+}
+#startBtn {  
+    margin: 5px;
+    
+}
+#stopBtn {
+    margin: 5px;
+}
+#score {
+    width: inherit;
+    color: white;
+    font-size: 40px; line-height: 40px; 
+    text-align: center;
+}
+@media(orientation: portrait){
+    #menu {       
+        width: calc(100vw - 20px);
+        height: 50px;
+        left: 10px;
+    }
+    #score {
+        line-height: 0px; top: 10px;
+        position: relative;
+        width: 50vw;
+        height: inherit;
+    }
+}

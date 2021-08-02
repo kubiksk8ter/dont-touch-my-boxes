@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HeadComponent } from './head/head.component';
 import { DwibComponent } from './dwib/dwib.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeadComponent,
-    DwibComponent
+    DwibComponent,
+    MenuComponent
   ],
   imports: [
     BrowserModule,
