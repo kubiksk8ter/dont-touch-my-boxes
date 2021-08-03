@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
+
 #menu {
     position: absolute;
     height: auto;
@@ -16,8 +18,16 @@
 #score {
     width: inherit;
     color: white;
+    font-family: 'Fredericka the Great', cursive;
     font-size: 40px; line-height: 40px; 
     text-align: center;
+    margin-top: 5px; margin-bottom: 0px;
+}
+#output {
+    color: var(--scheme-color2);
+    text-align: center;
+    font-size: 12px;
+    width: inherit;
 }
 @media(orientation: portrait){
     #menu {       
@@ -30,5 +40,8 @@
         position: relative;
         width: 50vw;
         height: inherit;
+    }
+    #output {
+        font-size: 18px;
     }
 }
