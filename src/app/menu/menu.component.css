@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Fredericka+the+Great&display=swap');
 
 #menu {
+    font-family: 'Fredericka the Great', cursive;
     position: absolute;
     height: auto;
     width: 70px;
@@ -9,24 +10,26 @@
     top: 10px; left: calc(50vw - 50vh - 70px);
 }
 #startBtn {  
-    margin: 5px;
-    
+    margin: 5px; font-size: 14px;    
 }
 #stopBtn {
     margin: 5px;
+    color: var(--scheme-color1);
 }
-#score {
+#score, #greenScore {
     width: inherit;
     color: white;
-    font-family: 'Fredericka the Great', cursive;
     font-size: 40px; line-height: 40px; 
     text-align: center;
     margin-top: 5px; margin-bottom: 0px;
 }
+#greenScore {
+    color: var(--scheme-color3);
+}
 #output {
     color: var(--scheme-color2);
     text-align: center;
-    font-size: 12px;
+    font-size: 14px;
     width: inherit;
 }
 @media(orientation: portrait){

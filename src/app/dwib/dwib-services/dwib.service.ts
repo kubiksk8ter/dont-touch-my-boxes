@@ -25,6 +25,7 @@ export class DwibService {
     private gameloop: any;
     private gameloopIntervalTime: number = 1000;
     private isGameStarted: boolean = false;
+    private isGreenBoxesReady: boolean = false;
     //SCORE variables
     private score: number = 0;
     private scoreSubject = new Subject<number>();
@@ -35,6 +36,16 @@ export class DwibService {
     }
     getScoreSubject() {
         return this.scoreSubject$;
+    }
+    //Green SCORE variables
+    private greenScore: number = 0;
+    private greenScoreSubject = new Subject<number>();
+    private greenScoreSubject$ = this.greenScoreSubject.asObservable();
+    private updateGreenScoreSubject(newScore: number) {
+        this.greenScoreSubject.next(newScore);
+    }
+    getGreenScoreSubject() {
+        return this.greenScoreSubject$;
     }   
     //OUTPUT variables    
     private output: string = "Welcome!";
@@ -113,12 +124,13 @@ export class DwibService {
         }       
     }   
     //GAME 
-    private changeSpeed(intervalTime: number, negativeBoxes: boolean) {
+    private changeSpeed(intervalTime: number, simpleBoxes: boolean, negativeBoxes: boolean, greenBoxes: boolean) {
         this.gameloopIntervalTime = intervalTime;
         clearInterval(this.gameloop);
         this.gameloop = setInterval(()=>{
+            if (simpleBoxes) {this.highlightSimpleBox();};
             if (negativeBoxes) {this.highlightNegativeBox()};
-            this.highlightSimpleBox();
+            if (greenBoxes) {this.highlightGreenBox(), this.isGreenBoxesReady = true};           
         }, this.gameloopIntervalTime);
         
         this.updateOutputSubject(`Speed ${(1000 / this.gameloopIntervalTime).toFixed(1)}x`);
@@ -126,7 +138,10 @@ export class DwibService {
       
     startGame() {
         if (!this.isGameStarted) {
-            this.isGameStarted = true;                             
+            this.isGameStarted = true;
+            this.greenScore = 0; this.updateGreenScoreSubject(this.greenScore); 
+            this.score = 0; this.updateScoreSubject(this.score); 
+            this.isGreenBoxesReady = false;                           
             this.gameloop = setInterval(()=>{
                 this.highlightSimpleBox();
             }, this.gameloopIntervalTime);
@@ -137,33 +152,35 @@ export class DwibService {
             if (this.score <= 0) {
                 this.stopGame();
             }
+            if (!this.isGreenBoxesReady) {
             switch (this.score) {
                 case 3:
-                    this.changeSpeed(900,false);
+                    this.changeSpeed(900, true, false, false);
                     break;
                 case 6:
-                    this.changeSpeed(800,false);
+                    this.changeSpeed(800, true, false, false);
                     break;
                 case 10:
-                    this.changeSpeed(700,false);
+                    this.changeSpeed(700, true, false, false);
                     break;
                 case 15:
-                    this.changeSpeed(600,false);
+                    this.changeSpeed(600, true, false, false);
                     break;
                 case 21:
-                    this.changeSpeed(500,false);
+                    this.changeSpeed(500, true, false, false);
                     break;
                 case 30:
-                    this.changeSpeed(400,true);
+                    this.changeSpeed(400, true, true, false);
                     this.updateOutputSubject("Avoid red boxes!");
                     break;
                 case 40:
-                    this.changeSpeed(300,true);
+                    this.changeSpeed(300, true, true, false);
                     break;
-                case 60:
-                    this.changeSpeed(200,true);
+                case 50:
+                    this.changeSpeed(200, true, true, true);
+                    this.updateOutputSubject("Hit green boxes!!!");
                     break;
-            }
+            }}
         });      
     }
      
@@ -172,7 +189,7 @@ export class DwibService {
             this.isGameStarted = false;
             this.subscription.unsubscribe();
             clearInterval(this.gameloop);
-            this.score = 0; this.updateScoreSubject(this.score);
+            this.score = 0; this.updateScoreSubject(this.score);           
             this.gameloopIntervalTime = 1000;
             this.animateWave();
             
@@ -194,7 +211,7 @@ export class DwibService {
             }
         );
         
-        let onClickListener = this.renderer.listen(element, "click", ()=>{
+        let onClickListener = this.renderer.listen(element, this.clickOrHover(), ()=>{
             this.score += 1; this.updateScoreSubject(this.score);
             isBoxClicked = true;           
             onClickListener();
@@ -224,7 +241,7 @@ export class DwibService {
             }
         );
         
-        let onClickListener = this.renderer.listen(element, "click", ()=>{
+        let onClickListener = this.renderer.listen(element, this.clickOrHover(), ()=>{
             this.score -= 5; this.updateScoreSubject(this.score);           
             onClickListener();
             animation.cancel();
@@ -235,6 +252,32 @@ export class DwibService {
             onClickListener();
             ;
         }, this.animationDuration);
+    }
+    
+    private highlightGreenBox () {
+        let random = Math.floor(Math.random() * this.divNumber);                                   
+        let element = document.getElementsByClassName(`${this.innerBoxClassName} X${random}`)[0];                          
+        let animation = element.animate(
+            [   //keyframes
+                {borderColor: "var(--border-color)"},
+                {borderColor: "var(--scheme-color3)"},
+                {borderColor: "var(--border-color)"}
+            ],{
+                duration: this.animationDuration/2           
+            }
+        );
+        
+        let onClickListener = this.renderer.listen(element, this.clickOrHover(), ()=>{
+            this.greenScore += 1; this.updateGreenScoreSubject(this.greenScore);           
+            onClickListener();
+            animation.cancel();
+        });               
+                
+        setTimeout(()=>{
+            animation.cancel();
+            onClickListener();
+            ;
+        }, this.animationDuration/2);
     }
     
     private animateWave () {
@@ -256,6 +299,16 @@ export class DwibService {
                 }, x*20);
             }
         }
+    }
+    
+    private isTouchEnabled() {
+        return ( 'ontouchstart' in window ) || 
+               ( navigator.maxTouchPoints > 0 ) ||
+               ( navigator.msMaxTouchPoints > 0 );
+    }
+    
+    private clickOrHover() {
+        if (this.isTouchEnabled()) {return "click";} else {return "mouseover";}
     }
     
     /*

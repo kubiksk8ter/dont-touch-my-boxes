@@ -8,6 +8,7 @@ import {DwibService} from '../dwib/dwib-services/dwib.service';
 })
 export class MenuComponent implements OnInit, AfterViewInit {
     score: any = 0;
+    greenScore: any = 0;
     @ViewChild('outputEl') private outputEl: ElementRef;
     output: string = "Welcome!";
 
@@ -18,6 +19,7 @@ export class MenuComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
       this.dwib.getScoreSubject().subscribe(data => {this.score = data});
+      this.dwib.getGreenScoreSubject().subscribe(data => {this.greenScore = data});
   }
   ngAfterViewInit():void {
       this.dwib.getOutputSubject().subscribe(data => {
