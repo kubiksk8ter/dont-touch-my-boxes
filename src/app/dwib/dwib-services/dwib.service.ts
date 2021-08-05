@@ -141,12 +141,13 @@ export class DwibService {
             this.isGameStarted = true;
             this.greenScore = 0; this.updateGreenScoreSubject(this.greenScore); 
             this.score = 0; this.updateScoreSubject(this.score); 
-            this.isGreenBoxesReady = false;                           
+            this.isGreenBoxesReady = false;
+                                       
             this.gameloop = setInterval(()=>{
                 this.highlightSimpleBox();
             }, this.gameloopIntervalTime);
-            
-            this.updateOutputSubject("Hit yellow boxes!");
+            if (this.isTouchEnabled()) {this.updateOutputSubject("Hit yellow boxes!")}
+            else {this.updateOutputSubject("Hover yellow boxes!")};
         }
         this.subscription = this.getScoreSubject().subscribe(data => {
             if (this.score <= 0) {
