@@ -1,0 +1,11 @@
+<form (ngSubmit)="onSubmit()">
+    <label id="name">Name</label>
+    <input type="text"
+           class="form-control"
+           placeholder="Enter your name here"
+           formControlName="name">
+    <div id="greenbox">
+        45
+    </div>
+    <button type="submit" class="btn btn-dark" [disabled]="true">Submit</button>
+</form>

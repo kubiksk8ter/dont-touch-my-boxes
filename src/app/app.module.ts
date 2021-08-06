@@ -10,6 +10,7 @@ import { MenuComponent } from './menu/menu.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { FormComponent } from './form/form.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { LeaderboardComponent } from './leaderboard/leaderboard.component';
     HeadComponent,
     DwibComponent,
     MenuComponent,
-    LeaderboardComponent
+    LeaderboardComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
