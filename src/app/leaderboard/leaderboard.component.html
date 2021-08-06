@@ -1,0 +1,18 @@
+<div id="leaderboard">
+    <table class="table table-hover table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">name</th>
+                <th scope="col">score</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let player of bestPlayers">
+                <td>{{this.players.indexOf(player)+1}}</td>
+                <td>{{player.name}}</td>
+                <td>{{player.score}}</td>
+            </tr>          
+        </tbody>
+    </table>
+</div>

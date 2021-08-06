@@ -9,13 +9,15 @@ import { DwibComponent } from './dwib/dwib.component';
 import { MenuComponent } from './menu/menu.component';
 import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeadComponent,
     DwibComponent,
-    MenuComponent
+    MenuComponent,
+    LeaderboardComponent
   ],
   imports: [
     BrowserModule,

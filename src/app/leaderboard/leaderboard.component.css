@@ -1,0 +1,8 @@
+#leaderboard {
+    position: relative; top: 10px; left: 10px;
+    max-width: 40px;
+    border-radius: 5px;
+}
+td {
+    color: white;
+}
