@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import {Player} from '../leaderboard/player';
-import {Apollo, gql} from 'apollo-angular';
+import {Player} from '../player';
+import {DatabaseConnectorService} from '../database-connector.service';
 
 @Component({
   selector: 'app-leaderboard',
@@ -12,34 +12,23 @@ export class LeaderboardComponent implements OnInit, AfterViewInit {
     bestPlayers: Player[];
     loading = true;
     error: any;
-  constructor(private appolo: Apollo) { }
+  constructor(private db: DatabaseConnectorService) { }
 
   ngOnInit(): void {
   }
   
   ngAfterViewInit(): void {
-      this.refreshPlayers();
+      this.refreshPlayers(); 
   }
-    
-  private refreshPlayers() {
-      this.appolo.query({
-          query: gql`
-            query Query {
-              players {
-                id
-                name
-                score
-              }
-            }
-          `,
-          fetchPolicy: 'network-only'
-      }).subscribe((result: any) => {
+   
+  private refreshPlayers () {
+      this.db.getPlayers().subscribe((result: any) => {
           this.players = result?.data?.players;
           this.loading = result.loading;
           this.error = result.error;
           this.sortPlayers();
-      });
-  }
+      })
+  } 
   
   private sortPlayers() {
       this.bestPlayers = this.players.slice();
@@ -47,4 +36,5 @@ export class LeaderboardComponent implements OnInit, AfterViewInit {
           return b.score - a.score;
       });
   }
+  
 }

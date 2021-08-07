@@ -1,11 +1,41 @@
-<form (ngSubmit)="onSubmit()">
+<form #formEl [formGroup]="form" (ngSubmit)="onSubmit()">
+    
+    <!-- CLOSE BUTTON -->
+    <button type="button" class="btn btn-outline-dark btn-sm" (click)='closeForm()'>
+        <span>&times;</span>
+    </button>
+    
+    <!-- INPUT -->
     <label id="name">Name</label>
     <input type="text"
            class="form-control"
            placeholder="Enter your name here"
            formControlName="name">
+    
+    <!-- NAME VALIDATOR -->
+    <div class="alert-danger small" 
+        *ngIf="name.invalid && (name.dirty || name.touched)" >
+        <div *ngIf="name.errors.minlength">
+            Name must contain at least 1 characters
+        </div>
+        <div *ngIf="name.errors.maxlength">
+            Name must contain max 5 characters
+        </div>
+        <div *ngIf="name.errors.required">
+            Name must be filled in
+        </div>
+        <div *ngIf="name.errors.pattern">            
+            Name must not contain any special characters
+        </div>
+    </div> 
     <div id="greenbox">
-        45
+       {{score}}
     </div>
-    <button type="submit" class="btn btn-dark" [disabled]="true">Submit</button>
+    
+    <!-- SUBMIT BUTTON -->
+    <button type="submit" 
+            class="btn btn-dark" 
+            [disabled]="!form.valid">
+        Submit
+    </button>
 </form>
