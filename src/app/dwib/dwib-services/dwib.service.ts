@@ -57,6 +57,16 @@ export class DwibService {
     getOutputSubject() {
         return this.outputSubject$;
     }
+    //END-GAME VARIABLES
+    private isGameEnded: boolean = false;
+    private isGameEndedSubject = new Subject<boolean>();
+    private isGameEndedSubject$ = this.isGameEndedSubject.asObservable();
+    private updateIsGameEndedSubject(isGameEnded: boolean) {
+        this.isGameEndedSubject.next(isGameEnded);
+    }
+    getIsGameEndedSubject() {
+        return this.isGameEndedSubject$;
+    }
     
        
     constructor(rendererFactory: RendererFactory2) {
@@ -138,7 +148,7 @@ export class DwibService {
       
     startGame() {
         if (!this.isGameStarted) {
-            this.isGameStarted = true;
+            this.isGameStarted = true; this.isGameEnded = false; this.updateIsGameEndedSubject(this.isGameEnded);
             this.greenScore = 0; this.updateGreenScoreSubject(this.greenScore); 
             this.score = 0; this.updateScoreSubject(this.score); 
             this.isGreenBoxesReady = false;
@@ -187,7 +197,7 @@ export class DwibService {
      
     stopGame() {
         if (this.isGameStarted) {
-            this.isGameStarted = false;
+            this.isGameStarted = false; this.isGameEnded = true; this.updateIsGameEndedSubject(this.isGameEnded);
             this.subscription.unsubscribe();
             clearInterval(this.gameloop);
             this.score = 0; this.updateScoreSubject(this.score);           
