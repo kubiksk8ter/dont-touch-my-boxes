@@ -1,8 +1,13 @@
-#leaderboard {
-    position: relative; top: 10px; left: 10px;
-    max-width: 40px;
-    border-radius: 5px;
+#lb {
+    position: relative; top: 10px;
+    left: calc(50vw + 50vh + 10px);
 }
-td {
-    color: white;
+#leaderboard {
+    z-index: 1;
+    position: relative;
+    width: 160px;
+    border-radius: 5px;
+    border: 1px solid white;
+    overflow: hidden;
+    background-color: white;
 }

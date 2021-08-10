@@ -27,9 +27,11 @@
     "apollo-client": "^2.6.10",
     "apollo-link-http": "^1.5.17",
     "bootstrap": "^4.6.0",
+    "bootstrap-icons": "^1.5.0",
     "graphql": "^15.5.1",
     "graphql-tag": "^2.12.5",
     "jquery": "^3.6.0",
+    "ngx-bootstrap-icons": "^1.5.2",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

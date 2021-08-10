@@ -8,11 +8,13 @@ import {DatabaseConnectorService} from '../database-connector.service';
   styleUrls: ['./leaderboard.component.css']
 })
 export class LeaderboardComponent implements OnInit, AfterViewInit {
+    public isCollapsed = true;
     players: Player[];
     bestPlayers: Player[];
     fiveBestPlayers: Player[];
     loading = true;
     error: any;
+    
   constructor(private db: DatabaseConnectorService) { }
 
   ngOnInit(): void {

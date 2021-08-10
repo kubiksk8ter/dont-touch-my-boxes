@@ -45,7 +45,7 @@ export class FormComponent implements AfterViewInit {
   
   private createPlayer() {
       this.db.createPlayer(this.name.value, this.score).subscribe((result: any) => {
-        console.log(`Player ${this.name.value} succsessfully added to leaderboard!`)
+          
       });
   } 
   get name() {return this.form.get('name')}

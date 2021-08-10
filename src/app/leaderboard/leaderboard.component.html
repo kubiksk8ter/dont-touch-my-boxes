@@ -1,4 +1,15 @@
-<div id="leaderboard">
+<div id="lb">
+<button class="btn btn-primary btn-dark" 
+        type="button" (click)="isCollapsed = !isCollapsed"
+        href="#leaderboard" 
+        data-bs-toggle="collapse" 
+        data-target="#leaderboard" 
+        [attr.aria-expanded]="!isCollapsed" 
+        aria-controls="leaderboard">
+        <i class="bi bi-trophy"></i>
+</button>
+
+<div class="collapse" id="leaderboard" [ngbCollapse]="isCollapsed">
     <table class="table table-hover table-striped">
         <thead class="thead-dark">
             <tr>
@@ -15,4 +26,5 @@
             </tr>          
         </tbody>
     </table>
+</div>
 </div>
