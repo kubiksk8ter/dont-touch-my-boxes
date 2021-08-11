@@ -107,8 +107,8 @@ export class DwibService {
     fill() {
         this.createMainDiv();
         //div variables
-        this.height = this.div.offsetHeight - 10;
-        this.width = this.div.offsetWidth*0.95; if(this.width === 0){this.width = screen.width*0.95;}; 
+        this.height = this.div.offsetHeight - 20;
+        this.width = this.div.offsetWidth*0.90; if(this.width === 0){this.width = screen.width*0.95;}; 
                      
         if((document.getElementsByClassName(`${this.innerBoxClassName}`).length) < 2) {   
             for (let y:number = 0; y < this.height; y += this.innerBoxHeight + this.padding) {                

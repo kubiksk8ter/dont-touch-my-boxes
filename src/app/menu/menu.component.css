@@ -19,9 +19,8 @@
 #score, #greenScore {
     width: inherit;
     color: white;
-    font-size: 40px; line-height: 40px; 
+    font-size: 40px; 
     text-align: center;
-    margin-top: 5px; margin-bottom: 0px;
 }
 #greenScore {
     color: var(--scheme-color3);
@@ -38,13 +37,13 @@
         height: 50px;
         left: 10px;
     }
-    #score {
-        line-height: 0px; top: 10px;
-        position: relative;
-        width: 50vw;
-        height: inherit;
+    #score, #greenScore {
+        width: 50px;
+        line-height: 0px;
+        position: relative; top: 10px;
     }
     #output {
         font-size: 18px;
+        position: relative; top: 10px;
     }
 }

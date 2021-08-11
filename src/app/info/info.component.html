@@ -1,0 +1,14 @@
+<div id="info">
+    <button class="btn btn-primary btn-dark" 
+            type="button"
+            (click)="isCollapsed = !isCollapsed">
+            <i class="bi bi-info-circle"></i>
+    </button>
+
+    <div id="info-text" 
+         [ngbCollapse]="isCollapsed">                   
+        Hit <strong style="color: var(--scheme-color2)">yellow</strong> boxes and get score over 50. <br>
+        Then hit as much <strong style="color: var(--scheme-color3)">green</strong> boxes as possible. <br>
+        Try to avoid <strong style="color: var(--scheme-color1)">red</strong> boxes.        
+    </div>
+</div>

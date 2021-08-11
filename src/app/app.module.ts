@@ -12,6 +12,7 @@ import { GraphQLModule } from './graphql.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { FormComponent } from './form/form.component';
+import { InfoComponent } from './info/info.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FormComponent } from './form/form.component';
     DwibComponent,
     MenuComponent,
     LeaderboardComponent,
-    FormComponent
+    FormComponent,
+    InfoComponent
   ],
   imports: [
     BrowserModule,
