@@ -1,5 +1,5 @@
 # DontTouchMyBoxes
-Simple game created by <strong><img src="https://github.com/kubiksk8ter/SVG_Icons/blob/main/SVG-Angular.svg">&nbsp; <br>
+Simple game created by &nbsp;&nbsp;<strong><img src="https://github.com/kubiksk8ter/SVG_Icons/blob/main/SVG-Angular.svg">&nbsp; <br>
 Please play this game on <a href='https://dtmb.jakubholecek.cz' target="_blank" rel="noopener noreferrer">dtmb.jakubholecek.cz</a>
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 10.1.7.
